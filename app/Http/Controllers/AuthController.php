@@ -8,13 +8,24 @@ class AuthController extends Controller
 {
     public function login()
     {
-    	return view('auths.login');
+    	if(auth()->check()){
+            if(auth()->user()->role == 'admin'){
+                return redirect('/');
+            }else{
+                return redirect('/dashboard');
+            }
+        }
+        return view('auths.login');
     }
 
     public function postlogin(Request $request)
     {
-    	if(Auth::attempt($request->only('email','password'))){
-    		return redirect('/dashboard');
+    	if(Auth::attempt($request->only('email','password'))){            
+    		if(auth()->user()->role == 'admin'){
+                return redirect('/');
+            }else{
+                return redirect('/dashboard');
+            }
     	}
     	return redirect('/login');
     }
