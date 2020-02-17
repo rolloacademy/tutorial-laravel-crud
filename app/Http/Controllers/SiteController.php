@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Mail\NotifPendaftaranSiswa;
 use App\Post;
+use Illuminate\Http\Request;
 
 class SiteController extends Controller
 {
@@ -35,8 +36,9 @@ class SiteController extends Controller
         $user->save();
 
         $request->request->add(['user_id' => $user->id ]);        
-    	$siswa = \App\Siswa::create($request->all());
+    	$siswa = \App\Siswa::create($request->all());       
 
+        \Mail::to($user->email)->send(new NotifPendaftaranSiswa);
     	return redirect('/')->with('sukses','Data pendaftaran berhasil dikirim');
     }
 

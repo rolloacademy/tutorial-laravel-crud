@@ -119,6 +119,14 @@
 		    <textarea name="alamat" class="form-control" id="exampleFormControlTextarea1" rows="3">{{old('alamat')}}</textarea>
 		  </div>
 
+		  <div class="form-group{{$errors->has('suku') ? ' has-error' : ''}}">
+		    <label for="exampleInputEmail1">suku</label>
+		    <input name="suku" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="suku" value="{{old('suku')}}">	
+		  	@if($errors->has('suku'))
+				<span class="help-block">{{$errors->first('suku')}}</span>
+		    @endif 
+		  </div>
+
 		<div class="form-group{{$errors->has('avatar') ? ' has-error' : ''}}">
 		    <label for="exampleFormControlTextarea1">Avatar</label>
 		    <input type="file" name="avatar" class="form-control">

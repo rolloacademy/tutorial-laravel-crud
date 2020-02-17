@@ -10,21 +10,12 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('TEST',function(){
-	\Mail::to('rolloic@gmail.com')->send(new \App\Mail\SendMail());	
-});
 
-Route::get('trick', [
-		'uses' => 'TrickController@pertama',
-		'as' => 'trick.pertama',
-	]);
+Route::get('/test','TestController@test');
 
 Route::get('/', 'SiteController@home');
 Route::get('/register','SiteController@register');
 Route::post('/postregister','SiteController@postregister');
-
-
-
 
 
 Route::get('/login','AuthController@login')->name('login');
