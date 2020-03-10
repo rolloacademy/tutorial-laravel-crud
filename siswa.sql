@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 17 Feb 2020 pada 17.15
+-- Waktu pembuatan: 10 Mar 2020 pada 06.49
 -- Versi server: 10.4.11-MariaDB
--- Versi PHP: 7.4.1
+-- Versi PHP: 7.2.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -21,6 +21,31 @@ SET time_zone = "+00:00";
 --
 -- Database: `siswa`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `forum`
+--
+
+CREATE TABLE `forum` (
+  `id` int(11) NOT NULL,
+  `judul` varchar(255) NOT NULL,
+  `slug` varchar(255) NOT NULL,
+  `konten` text NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `forum`
+--
+
+INSERT INTO `forum` (`id`, `judul`, `slug`, `konten`, `user_id`, `created_at`, `updated_at`) VALUES
+(1, 'Forum pertama', 'forum-pertama', 'Ini konten forum', 7, '2020-03-06 18:09:09', '0000-00-00'),
+(2, 'Forum Kedua', 'forum-kedua', 'Ini konten kedua', 12, '2020-03-07 18:01:19', '0000-00-00'),
+(3, 'Forum ketiga', 'forum-ketiga', 'Bla bla Bla bla Bla bla Bla bla Bla bla', 12, '2020-03-08 03:10:23', '2020-03-08');
 
 -- --------------------------------------------------------
 
@@ -44,6 +69,22 @@ CREATE TABLE `guru` (
 INSERT INTO `guru` (`id`, `nama`, `telpon`, `alamat`, `created_at`, `updated_at`) VALUES
 (1, 'Sarjono', '08213126316', 'Depok', '2019-01-28 19:53:05', '0000-00-00 00:00:00'),
 (2, 'Dwikorita', '087821738713', 'Bekasi', '2019-01-28 19:53:05', '0000-00-00 00:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `komentar`
+--
+
+CREATE TABLE `komentar` (
+  `id` int(11) NOT NULL,
+  `konten` text NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `forum_id` int(11) NOT NULL,
+  `parent` int(11) NOT NULL DEFAULT 0,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -108,7 +149,7 @@ INSERT INTO `mapel_siswa` (`id`, `siswa_id`, `mapel_id`, `nilai`, `created_at`, 
 (19, 13, 3, 70, '2019-01-30 08:07:00', '2019-01-30 15:07:00'),
 (20, 14, 2, 70, '2019-01-30 08:07:11', '2019-01-30 15:07:37'),
 (21, 14, 3, 65, '2019-01-30 08:07:24', '2019-01-30 15:07:42'),
-(22, 15, 1, 95, '2019-01-30 08:07:55', '2019-01-30 15:07:55'),
+(22, 15, 1, 90, '2019-01-30 08:07:55', '2020-03-05 05:25:49'),
 (23, 15, 2, 90, '2019-01-30 08:08:01', '2019-01-30 15:08:01'),
 (24, 15, 3, 95, '2019-01-30 08:08:08', '2019-01-30 15:08:08'),
 (25, 16, 1, 50, '2019-01-30 08:08:17', '2019-01-30 15:08:17'),
@@ -1274,7 +1315,7 @@ INSERT INTO `users` (`id`, `role`, `name`, `email`, `email_verified_at`, `passwo
 (1, 'admin', 'Basrul', 'rolloic@gmail.com', NULL, '$2y$10$vAP3WfaLpDR7i/Q8EIvFV.MPX4hzvMb.7S/Hqvf2dIohsSc.A67ae', 'JEBCHCgK16ZAC5SQHfsx6oE6CtwAPAbRZ7qnYU8KpNl5FVXeNUauJTHJZbgb', '2018-12-19 05:55:33', '2018-12-19 05:55:33'),
 (7, 'siswa', 'Azil', 'azil@gmail.com', NULL, '$2y$10$002a58QX2PO5VuHhzTm1teupt3fJqVXKFyX7ptLk5I8hr6Il0aPDC', '5BOUk9FVPCMBqQaF5QFnPuY24tcCRnImn3FbD8sBcRHGGQxfucUUvwG7IQB0', '2019-01-02 09:56:10', '2019-01-02 09:56:10'),
 (10, 'siswa', 'Mahmud', 'mahmud@gmail.com', NULL, '$2y$10$.qosni0D2Tcd.fSq8gcHveT0j6YdL1JLtzkYmGOCmG.xTwiBsnmmS', '16ynjuYnYI0ntvsZGwGol0de6kzugaweAbrRhbMOuvqwUWJkdA1yrPHEHVMm', '2019-01-05 09:18:12', '2019-01-05 09:18:12'),
-(12, 'siswa', 'Nazwa', 'nazwa@gmail.com', NULL, '$2y$10$YR.owpy71PpfDX/SwNvIgubsf4PaMVxdt9yb8uvfoFmPSUNqndj4i', 'WIs5YTJabKQd3Wten9gSD22lHhGWBBA0tHJr0TeZBmUGRMsJEsUpg4Niji6Z', '2019-01-05 09:42:51', '2019-01-05 09:42:51'),
+(12, 'siswa', 'Nazwa', 'nazwa@gmail.com', NULL, '$2y$10$YR.owpy71PpfDX/SwNvIgubsf4PaMVxdt9yb8uvfoFmPSUNqndj4i', '3dLba6mTwENNEeOmdvo1Cnrxv5CfQEDrmFzlazr9KrnNQxKWz2YDNo1J1bAs', '2019-01-05 09:42:51', '2019-01-05 09:42:51'),
 (13, 'siswa', 'Ari Kurniawan', 'ari.k@gmail.com', NULL, '$2y$10$m7en8lmHt0kKqKRHNIWzhe1.jK76WhBOXKWOsKBJWU8bxy3Fw3nDO', '6KttRbAMJvz36l7zcf0hRk4rhovbZsp1GSlQV4TJD6XR1gFaFlFQwC27gOdt', '2019-02-12 06:19:10', '2019-02-12 06:19:10'),
 (14, 'siswa', 'Rana', 'rana@gmail.com', NULL, '$2y$10$7d.UhHHIZuOYNIYbbFNgf.9WSVAux.xKBFnvEN8mMXKv92IVgKjkq', 'PtXZkVLUZ5qAIxfysEDAIdipi8Hm1eewFCXdVrY31IDD1CrJFQl264PaWGla', '2019-04-05 07:47:17', '2019-04-05 07:47:17'),
 (15, 'siswa', 'Ismie', 'ismi@gmail.com', NULL, '$2y$10$.slTefoTrGr0ubRDp1dAxO4MH4LccdugUzdNcQFEhCyqsNr7MH0xK', '55gbrHto0ovxTw9CndWnb8cmLgLA07IbtPRjIlp0t1TANSTiNuxKP8hHPogd', '2019-09-17 06:04:46', '2019-09-17 06:04:46'),
@@ -1291,9 +1332,21 @@ INSERT INTO `users` (`id`, `role`, `name`, `email`, `email_verified_at`, `passwo
 --
 
 --
+-- Indeks untuk tabel `forum`
+--
+ALTER TABLE `forum`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indeks untuk tabel `guru`
 --
 ALTER TABLE `guru`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indeks untuk tabel `komentar`
+--
+ALTER TABLE `komentar`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1344,10 +1397,22 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT untuk tabel `forum`
+--
+ALTER TABLE `forum`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT untuk tabel `guru`
 --
 ALTER TABLE `guru`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT untuk tabel `komentar`
+--
+ALTER TABLE `komentar`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT untuk tabel `mapel`

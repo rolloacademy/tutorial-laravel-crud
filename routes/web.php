@@ -50,6 +50,9 @@ Route::group(['middleware' => ['auth','checkRole:admin']],function(){
 
 Route::group(['middleware' => ['auth','checkRole:admin,siswa']],function(){
 	Route::get('/dashboard','DashboardController@index');
+	Route::get('/forum','ForumController@index');
+	Route::post('forum/create','ForumController@create');
+	Route::get('/forum/{forum}/view','ForumController@view');
 });
 
 Route::group(['middleware' => ['auth','checkRole:siswa']],function(){
