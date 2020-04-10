@@ -13,7 +13,12 @@
 				</div>
 				<div class="panel-body">					
 					{{$forum->konten}}
-				<hr>
+                <hr>
+                <div class="btn-group">
+                    <button class="btn btn-default"><i class="lnr lnr-thumbs-up"></i> Suka</button>
+                    <button class="btn btn-default" id="btn-komentar-utama"><i class="lnr lnr-bubble"></i> Komentar</button>
+                </div>
+                <textarea style="margin-top:10px;display:none;" id="komentar-utama" name="komentar" class="form-control" id="komentar-utama" rows="4"></textarea>
                 <h3>Komentar</h3>
                 <ul class="list-unstyled activity-list">
                     <li>
@@ -44,4 +49,14 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('footer')
+    <script>
+        $(document).ready(function(){
+            $('#btn-komentar-utama').click(function(){
+                $('#komentar-utama').toggle('slide');
+            });
+        });
+    </script>
 @endsection
