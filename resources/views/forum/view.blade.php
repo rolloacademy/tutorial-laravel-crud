@@ -18,29 +18,35 @@
                     <button class="btn btn-default"><i class="lnr lnr-thumbs-up"></i> Suka</button>
                     <button class="btn btn-default" id="btn-komentar-utama"><i class="lnr lnr-bubble"></i> Komentar</button>
                 </div>
-                <textarea style="margin-top:10px;display:none;" id="komentar-utama" name="komentar" class="form-control" id="komentar-utama" rows="4"></textarea>
+                <form action=""style="margin-top:10px;display:none;" id="komentar-utama" method="POST">
+                    @csrf
+                    <input type="hidden" name="forum_id" value="{{$forum->id}}">
+                    <input type="hidden" name="parent" value="0">
+                    <textarea name="konten" class="form-control" id="komentar-utama" rows="4"></textarea>
+                    <input type="submit" class="btn btn-primary" value="Kirim">
+                </form>
                 <h3>Komentar</h3>
                 <ul class="list-unstyled activity-list">
+                    @foreach($forum->komentar()->where('parent',0)->orderBy('created_at','desc')->get() as $komentar)
                     <li>
-                        <img src="assets/img/user1.png" alt="Avatar" class="img-circle pull-left avatar">
-                        <p><a href="#">Michael</a> has achieved 80% of his completed tasks <span class="timestamp">20 minutes ago</span></p>
+                    <img src="{{$komentar->user->siswa->getAvatar()}}" alt="Avatar" class="img-circle pull-left avatar">
+                        <p><a href="#">{{$komentar->user->siswa->nama_lengkap()}}</a> <br>
+                        {{$komentar->konten}}<span class="timestamp">{{$komentar->created_at->diffForHumans()}}</span></p>
+                        <form action="" method="POST" style="padding-left:3.5em;">
+                            @csrf
+                            <input type="hidden" name="forum_id" value="{{$forum->id}}">
+                            <input type="hidden" name="parent" value="{{$komentar->id}}">
+                            <input type="text" name="konten" class="form-control">
+                            <input type="submit" class="btn btn-primary btn-xs" value="Kirim">
+                        </form>
+                        <br>
+                        @foreach($komentar->childs()->orderBy('created_at','desc')->get() as $child)
+                            <p><a href="#">{{$child->user->siswa->nama_lengkap()}}</a>
+                            {{$child->konten}}<span class="timestamp">{{$child->created_at->diffForHumans()}}</span></p>
+                        @endforeach
                     </li>
-                    <li>
-                        <img src="assets/img/user2.png" alt="Avatar" class="img-circle pull-left avatar">
-                        <p><a href="#">Daniel</a> has been added as a team member to project <a href="#">System Update</a> <span class="timestamp">Yesterday</span></p>
-                    </li>
-                    <li>
-                        <img src="assets/img/user3.png" alt="Avatar" class="img-circle pull-left avatar">
-                        <p><a href="#">Martha</a> created a new heatmap view <a href="#">Landing Page</a> <span class="timestamp">2 days ago</span></p>
-                    </li>
-                    <li>
-                        <img src="assets/img/user4.png" alt="Avatar" class="img-circle pull-left avatar">
-                        <p><a href="#">Jane</a> has completed all of the tasks <span class="timestamp">2 days ago</span></p>
-                    </li>
-                    <li>
-                        <img src="assets/img/user5.png" alt="Avatar" class="img-circle pull-left avatar">
-                        <p><a href="#">Jason</a> started a discussion about <a href="#">Weekly Meeting</a> <span class="timestamp">3 days ago</span></p>
-                    </li>
+                    @endforeach
+                   
                 </ul>
                 </div>
 			</div>
